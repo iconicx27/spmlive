@@ -1,0 +1,19 @@
+.flexColumn {
+    min-height: 100vh;
+    padding: 4rem 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+  }
+
+
+  .formInput{
+    padding : 1rem;
+  }
+
+  .btn{
+    padding : 1rem;
+  }
