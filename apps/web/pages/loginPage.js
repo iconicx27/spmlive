@@ -116,7 +116,6 @@ const loginPage = (props) => {
             
         </main> */}
 
-
         <Head>
             <link rel="stylesheet" href="https://kit-pro.fontawesome.com/releases/v5.15.1/css/pro.min.css" />
         </Head>

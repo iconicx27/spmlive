@@ -1,7 +1,7 @@
+import Navbar from '../components/navbar.js'
+
 export default function Home() {
   return (
-    <>
-      <h1 className='text-3xl font-bold underline'>Hey Tejas Here!</h1>
-    </>
+    <div>hey!</div>
   )
 }
