@@ -39,6 +39,8 @@ const Demo = (props) => {
         </a>
       </div>
 
+      <button class="btn btn-primary">Button</button>
+
       {/* <!-- Product List --> */}
 
 
