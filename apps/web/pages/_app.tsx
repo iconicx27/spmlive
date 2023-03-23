@@ -6,14 +6,21 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 import "react-toastify/dist/ReactToastify.css";
-
+import { ApolloProvider } from "@apollo/client";
+import client from "../services/apollo-client";
+import { Provider } from "react-redux";
+import store from "../store/index";
 import "../styles/globals.css";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <Layout>
-      <Component {...pageProps} />
-    </Layout>
+    <ApolloProvider client={client}>
+      <Provider store={store}>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </Provider>
+    </ApolloProvider>
   );
 }
 
