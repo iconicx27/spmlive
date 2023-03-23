@@ -2,7 +2,8 @@ import React, { ChangeEvent } from "react";
 import { useLanguage } from "../../hooks/useLanguage";
 import { BsFilterLeft, BsArrowDown } from "react-icons/bs";
 import { radioBtnValue } from "../../mock/sortRadioInput";
-
+import DropDown from "../../components/dropdown";
+import { filters } from "../../mock/filters";
 interface Props {
   selectedBtn: string;
   onChangeSelectedBtn: (e: ChangeEvent<HTMLInputElement>) => void;
@@ -17,16 +18,18 @@ const Sort: React.FC<Props> = ({
     value === selectedRadioBtn ? true : false;
 
   return (
-    <div className="my-4 pb-2 flex flex-wrap border-b-2 border-slate-300">
+    <div className="my-4 pb-2 flex sm:flex-row flex-col flex-wrap border-b-2 border-slate-300">
       <div className="flex items-center">
         <div className="flex items-center">
-          <BsFilterLeft style={{ fontSize: "1.5rem" }} />
-          <BsArrowDown />
+          {/* <BsFilterLeft style={{ fontSize: "1.5rem" }} />
+          <BsArrowDown /> */}
+          <p className="font-bold px-2">Filter by:</p>
         </div>
-        <h5 className="ltr:ml-1 rtl:mr-1">{t.sort}</h5>
       </div>
-
-      <div className="flex flex-wrap items-center">
+      {Object.keys(filters).map((filter, index) => {
+        return <DropDown filterOption={filter} key={`id-${index}`} />;
+      })}
+      {/* <div className="flex flex-wrap items-center">
         {radioBtnValue.map((radioInput) => {
           return (
             <div key={radioInput} className="px-1 md:px-2 mx-2 my-1 sm:my-0">
@@ -52,7 +55,7 @@ const Sort: React.FC<Props> = ({
             </div>
           );
         })}
-      </div>
+      </div> */}
     </div>
   );
 };
