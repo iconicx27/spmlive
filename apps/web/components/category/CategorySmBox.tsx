@@ -15,15 +15,13 @@ const CategorySmBox: React.FC<Props> = ({
   categoryTitle,
   href,
 }) => {
-  const { t, locale } = useLanguage();
+  // const { t, locale } = useLanguage();
   return (
     <Link href={`${href}`}>
       <a>
         <div
           className={`flex flex-col items-center text-center  ${
-            locale === "en"
-              ? "w-[10rem] sm:w-[13rem]"
-              : "min-w-[7rem] w-[9.3rem] sm:w-[10rem]"
+            "w-[10rem] sm:w-[13rem]"
           } my-2`}
         >
           <div
@@ -38,7 +36,7 @@ const CategorySmBox: React.FC<Props> = ({
             />
           </div>
           <h3 className="text-sm md:text-base font-bold mt-2">
-            {t[`${categoryTitle}`]}
+            {[`${categoryTitle}`]}
           </h3>
         </div>
       </a>

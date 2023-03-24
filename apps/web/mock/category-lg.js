@@ -1,7 +1,7 @@
 export const categoryLgContent = [
   {
     name: "digital",
-    title: "digitalCategoryTitle",
+    title: "The fresh aata's",
     description: "digitalCategoryDescription",
     styles: {
       backgroundColor: "var(--digital-category-bgc)",
@@ -12,7 +12,8 @@ export const categoryLgContent = [
       gridColumn: "span 3 / span 3",
     },
     href: "/digital",
-    imgSrc: "/images/category-img/digital-category.webp",
+    // imgSrc: "/images/category-img/digital-category.webp",
+    imgSrc: "https://p7.hiclipart.com/preview/702/283/739/bread-wheat-sieve-flour-baking-wheat-flour.jpg",
     imgWidth: 190,
     imgHeight: 240,
   },

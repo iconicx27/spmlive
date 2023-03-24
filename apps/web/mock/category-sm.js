@@ -2,7 +2,7 @@ export const categorySmContent = [
   {
     bgc: "digitalCategory",
     imgSrc: "digital-category.webp",
-    categoryTitle: "digitalCategoryTitle",
+    categoryTitle: "xyz",
     href: "/digital",
   },
   {
