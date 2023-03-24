@@ -10,12 +10,12 @@ import { useLanguage } from "../../hooks/useLanguage";
 import NextNProgress from "nextjs-progressbar";
 
 const Layout: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
-  const { locale } = useLanguage();
+  // const { locale } = useLanguage();
   return (
     <Provider store={store}>
       <ThemeProvider enableSystem={true} attribute="class">
         <Head>
-          <title>ZiShop</title>
+          <title>SPM</title>
         </Head>
         <div className="flex flex-col min-h-[100vh]">
           <NextNProgress height={7} />
@@ -26,8 +26,8 @@ const Layout: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
         <ToastContainer
           autoClose={2000}
           hideProgressBar={true}
-          rtl={locale === "en" ? false : true}
-          position={locale === "en" ? "top-right" : "top-left"}
+          // rtl={locale === "en" ? false : true}
+          // position={locale === "en" ? "top-right" : "top-left"}
         />
       </ThemeProvider>
     </Provider>
