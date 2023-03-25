@@ -7,7 +7,7 @@ import { newestProductsActions } from "../store/newestProduct-slice";
 import React from 'react'
 import dynamic from "next/dynamic";
 import { ApolloQueryResult, gql } from "@apollo/client";
-import apclient from "../apollo-client";
+import apclient from "../services/apollo-client";
 
 
 import { client } from "../lib/client";
@@ -98,3 +98,4 @@ export default Home;
 //     },
 //   }
 // }
+
