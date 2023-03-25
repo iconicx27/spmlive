@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { IUserInfoRootState } from "../../../lib/types/user";
 import UserAccountBtn from "./UserAccountBtn";
@@ -25,14 +25,18 @@ const User = () => {
     (state: IUserInfoRootState) => state.userInfo.userInformation
   );
 
+  const [userLoading, setUserLoading] = useState(true);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const { error, data, loading } = await client.query({ query: meQuery });
         if (data) {
           dispatch(userInfoActions.userLogin(data));
+          setUserLoading(false);
         }
       } catch (error) {
+        setUserLoading(false);
         if (error instanceof ApolloError && error.graphQLErrors.length > 0) {
           const message = error.graphQLErrors[0].message;
           if (message === "Not Authenticated") {
@@ -46,7 +50,9 @@ const User = () => {
     fetchData();
   }, [dispatch]);
 
-  return <div>{userInfo ? <UserAccountBtn /> : <LoginBtn />}</div>;
+  let condition = userInfo ? <UserAccountBtn /> : <LoginBtn />;
+
+  return userLoading ? null : condition;
 };
 
 export default User;
