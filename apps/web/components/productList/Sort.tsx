@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, useState } from "react";
 import { useLanguage } from "../../hooks/useLanguage";
 import { BsFilterLeft, BsArrowDown } from "react-icons/bs";
 import { radioBtnValue } from "../../mock/sortRadioInput";
@@ -12,11 +12,7 @@ const Sort: React.FC<Props> = ({
   selectedBtn: selectedRadioBtn,
   onChangeSelectedBtn,
 }) => {
-  const { t } = useLanguage();
-
-  const isRadioSelected = (value: string): boolean =>
-    value === selectedRadioBtn ? true : false;
-
+  const [currentDropDown, setDropDown] = useState("");
   return (
     <div className="my-4 pb-2 flex sm:flex-row flex-col flex-wrap border-b-2 border-slate-300">
       <div className="flex items-center">
@@ -27,7 +23,14 @@ const Sort: React.FC<Props> = ({
         </div>
       </div>
       {Object.keys(filters).map((filter, index) => {
-        return <DropDown filterOption={filter} key={`id-${index}`} />;
+        return (
+          <DropDown
+            filterOption={filter}
+            key={`id-${index}`}
+            currentDropDown={currentDropDown}
+            setDropDown={setDropDown}
+          />
+        );
       })}
       {/* <div className="flex flex-wrap items-center">
         {radioBtnValue.map((radioInput) => {
