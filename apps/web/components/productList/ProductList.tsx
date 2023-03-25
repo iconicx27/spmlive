@@ -41,7 +41,7 @@ const ProductList: React.FC<Props> = ({ productList }) => {
 
   return (
     <div>
-      <Breadcrumb />
+      {/* <Breadcrumb /> */}
       <SubmenuCategory />
       <div className="w-full xl:max-w-[2100px] mx-auto">
         {isInNewestProductsPage && productList.length ? (

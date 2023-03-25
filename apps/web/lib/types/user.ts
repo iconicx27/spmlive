@@ -5,6 +5,12 @@ export interface IUser {
   email: string;
   isAdmin?: boolean;
   token?: string;
+  phone?: string;
+}
+
+interface UName {
+  firstName: string;
+  lastName: string;
 }
 
 export interface IUserInfo {

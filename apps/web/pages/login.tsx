@@ -9,6 +9,7 @@ import { userInfoActions } from "../store/user-slice";
 import { getError } from "../utilities/error";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { auth, signInWithEmailAndPassword } from "../services/firebase";
 const Login: NextPage = () => {
   const dispatch = useDispatch();
   const router = useRouter();
@@ -20,17 +21,24 @@ const Login: NextPage = () => {
     if (userInfo) {
       router.push("/");
     }
-  }, [userInfo, router]);
+  }, [userInfo, router, dispatch]);
   async function LoginHandler(user: IUser) {
     const { email, password } = user;
     try {
-      const { data } = await axios.post("/api/users/login", {
+      const result = await signInWithEmailAndPassword(
+        auth,
         email,
-        password,
-      });
-      dispatch(userInfoActions.userLogin(data));
-      jsCookie.set("userInfo", JSON.stringify(data));
-      router.push("/");
+        password as string
+      );
+      const token = (await result.user?.accessToken!) ?? "";
+      const res = await fetch("http://localhost:3001/auth/login", {
+        method: "post",
+        headers: {
+          authorization: token,
+        },
+        credentials: "include",
+      }).then((data) => data.json());
+      dispatch(userInfoActions.userLogin(res));
     } catch (err: any) {
       setErrorMessage(getError(err));
       console.log(getError(err));

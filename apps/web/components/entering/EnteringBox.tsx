@@ -17,6 +17,7 @@ const EnteringBox: React.FC<Props> = ({
   const userNameRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
   const emailRef = useRef<HTMLInputElement | null>(null);
+  const phoneRef = useRef<HTMLInputElement | null>(null);
   const errorMessageRef = useRef<HTMLSpanElement | null>(null);
   const { t } = useLanguage();
 
@@ -33,9 +34,10 @@ const EnteringBox: React.FC<Props> = ({
       if (userNameRef.current?.value && title === "signUp") {
         user = {
           name: userNameRef.current?.value,
-          password: passwordRef.current?.value,
           email: emailRef.current?.value,
-          isAdmin: false,
+          password: passwordRef.current?.value,
+          phone: "+91" + phoneRef.current?.value,
+          // isAdmin: false,
         };
       } else {
         user = {
@@ -77,7 +79,6 @@ const EnteringBox: React.FC<Props> = ({
                 required={true}
               />
             ) : null}
-
             <Input
               ref={emailRef}
               type="email"
@@ -86,7 +87,6 @@ const EnteringBox: React.FC<Props> = ({
               required={true}
               title={title === "login" ? "test@info.co" : undefined}
             />
-
             <Input
               ref={passwordRef}
               type="password"
@@ -95,6 +95,17 @@ const EnteringBox: React.FC<Props> = ({
               title={title === "login" ? "123456" : undefined}
               required={true}
             />
+
+            {title === "signUp" ? (
+              <Input
+                ref={phoneRef}
+                type="text"
+                maxLength={10}
+                id="phone"
+                placeholder="enterYourPhoneNumber"
+                required={true}
+              />
+            ) : null}
           </div>
           {errorMessage && (
             <span
@@ -120,6 +131,15 @@ const EnteringBox: React.FC<Props> = ({
             <span className="text-cyan-500">{t[`${linkHref}`]}</span>
           </a>
         </Link>
+        {title == "login" && (
+          <Link href={`/forgotPassword`}>
+            <a className="block my-4">
+              <span className="text-sm text-palette-mute ">
+                Forgot Password?
+              </span>
+            </a>
+          </Link>
+        )}
       </div>
     </div>
   );

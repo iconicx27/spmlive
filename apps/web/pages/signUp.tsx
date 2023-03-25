@@ -9,6 +9,18 @@ import { getError } from "../utilities/error";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { IUserInfoRootState } from "../lib/types/user";
+import { gql, useMutation } from "@apollo/client";
+
+const REGISTER_USER_MUTATION = gql`
+  mutation register($createUser: CreateUserInput!) {
+    register(createUser: $createUser) {
+      id
+      email
+      role
+    }
+  }
+`;
+
 const SignUp: NextPage = () => {
   const dispatch = useDispatch();
   const router = useRouter();
@@ -17,31 +29,25 @@ const SignUp: NextPage = () => {
   const userInfo = useSelector(
     (state: IUserInfoRootState) => state.userInfo.userInformation
   );
+  const [registerUser, { data, loading, error }] = useMutation(
+    REGISTER_USER_MUTATION
+  );
   useEffect(() => {
     if (userInfo) {
       router.push((redirect as string) || "/");
     }
   }, [userInfo, redirect, router]);
   async function signUpHandler(user: IUser) {
-    const { name, email, password } = user;
+    // const { name, email, password } = user;
+    console.log("User : ", user);
     try {
-      const { data } = await axios.post("/api/users/register", {
-        name,
-        email,
-        password,
-      });
-      dispatch(userInfoActions.userLogin(data));
-      jsCookie.set("userInfo", JSON.stringify(data));
-      router.push("/");
+      const { data } = await registerUser({ variables: { createUser: user } });
+      router.push("/login");
     } catch (err: any) {
       /* sanity.io is boycott for the people from Iran so I set cookies for whom don't use VPN in Iran*/
-      if (err.response.data.status == 500) {
-        dispatch(userInfoActions.userLogin(user));
-        jsCookie.set("userInfo", JSON.stringify(user));
-      }
       setErrorMessage(getError(err));
-      console.log(getError(err));
-      // router.push("/");
+      // console.log(getError(err));
+      console.log(err);
     }
   }
   return (
