@@ -1,17 +1,24 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { filters } from "../../mock/filters";
+import { filterAction } from "../../store/filters.slice";
 const index = ({ filterOption, currentDropDown, setDropDown }) => {
+  const filterState = useSelector((state) => state.filter);
+  const dispatch = useDispatch();
+  // console.log(filterState);
+
   return (
-    <div
-      onClick={() => {
-        setDropDown((prev) => (prev == filterOption ? "" : filterOption));
-      }}
-    >
-      <div className="relative inline-block text-left px-3">
-        <div>
+    <div>
+      <div className="relative text-left justify-between w-52 my-1">
+        <div
+          onClick={() => {
+            setDropDown((prev) => (prev == filterOption ? "" : filterOption));
+          }}
+        >
           <button
             type="button"
-            className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+            className={`flex w-full justify-between gap-x-1.5
+            border-b-2 border-gray-100 py-2 text-sm font-semibold  text-gray-900 shadow-sm hover:bg-gray-50`}
             id="menu-button"
             aria-expanded="true"
             aria-haspopup="true"
@@ -24,34 +31,51 @@ const index = ({ filterOption, currentDropDown, setDropDown }) => {
               aria-hidden="true"
             >
               <path
-                fill-rule="evenodd"
+                fillRule="evenodd"
                 d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
-                clip-rule="evenodd"
+                clipRule="evenodd"
               />
             </svg>
           </button>
         </div>
         <div
-          className={`${
-            currentDropDown == filterOption ? "absolute" : "hidden"
-          } right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none`}
+          className={`w-full ${
+            currentDropDown == filterOption ? "block" : "hidden"
+          } z-10 origin-top-right rounded-md focus:outline-none`}
           role="menu"
           aria-orientation="vertical"
           aria-labelledby="menu-button"
-          tabindex="-1"
         >
-          <div className="py-1" role="none">
+          <div className="py-1 w-full" role="none">
             {filters[filterOption].map((option, index) => {
               return (
-                <a
-                  href="#"
-                  className="text-gray-700 block px-4 py-2 text-sm"
-                  role="menuitem"
-                  tabindex="-1"
-                  id={`menu-item-${index}`}
-                >
-                  {option}
-                </a>
+                <div className="flex w-full" key={`menu-item-${index}`}>
+                  <input
+                    type="checkbox"
+                    className="flex-[0.1]"
+                    checked={filterState?.filterOption?.includes(option)}
+                    onChange={(event) => {
+                      const action = event.target.checked
+                        ? filterAction.addFilter({
+                            type: filterOption,
+                            data: option,
+                          })
+                        : filterAction.removeFilter({
+                            type: filterOption,
+                            data: option,
+                          });
+                      dispatch(action);
+                    }}
+                  />
+                  <p
+                    className={`flex-[0.8] ml-2 text-gray-700 ${
+                      index == filters[filterOption].length - 1 && "border-b-2"
+                    } block px-4 py-2 text-sm`}
+                    role="menuitem"
+                  >
+                    {option}
+                  </p>
+                </div>
               );
             })}
           </div>
@@ -61,4 +85,4 @@ const index = ({ filterOption, currentDropDown, setDropDown }) => {
   );
 };
 
-export default index;
+export default React.memo(index);

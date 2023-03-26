@@ -11,6 +11,7 @@ import megaMenuReducer from "./megaMenu-slice";
 import activeMenuItemReducer from "./activeMenuItem-slice";
 import settingBoxReducer from "./settingBox-slice";
 import favoriteReducer from "./favorite-slice";
+import filterReducer from "./filters.slice";
 
 const store = configureStore({
   reducer: {
@@ -25,6 +26,7 @@ const store = configureStore({
     activeMenuItem: activeMenuItemReducer,
     settingBox: settingBoxReducer,
     favorite: favoriteReducer,
+    filter: filterReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
