@@ -6,7 +6,7 @@ import Settings from "./Settings";
 import SearchBar from "./SearchBar";
 import CartIcon from "../cart/CartIcon";
 import Language from "./language/Language";
-
+import ClientOnly from "../../services/ClientOnly";
 const UserBox = dynamic(() => import("./user"), {
   ssr: false,
 });
