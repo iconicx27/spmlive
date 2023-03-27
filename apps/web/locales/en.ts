@@ -155,7 +155,7 @@ const en: { [key: string]: string } = {
   howToPlaceAnOrder: "How To Place An Order?",
   orderSubmissionProcedure: "Order Submission Procedure",
   paymentMethods: "Payment Methods",
-  beWithUs: "Be With Us!",
+  beWithUs: "Connect With Us!",
   emailRegister: "Stay up to date with the latest discounts by emailing us",
   yourEmail: "Please Enter Your Email",
   register: "Register",

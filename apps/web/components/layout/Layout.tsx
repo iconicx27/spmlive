@@ -6,8 +6,8 @@ import Header from "../header";
 import store from "../../store/index";
 import Footer from "../footer";
 import { ToastContainer } from "react-toastify";
-import { useLanguage } from "../../hooks/useLanguage";
 import NextNProgress from "nextjs-progressbar";
+import { useLanguage } from "../../hooks/useLanguage";
 
 const Layout: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
   // const { locale } = useLanguage();
