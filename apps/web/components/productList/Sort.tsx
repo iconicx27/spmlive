@@ -5,19 +5,13 @@ import { radioBtnValue } from "../../mock/sortRadioInput";
 import DropDown from "../../components/dropdown";
 import { filters } from "../../mock/filters";
 import { useDispatch, useSelector } from "react-redux";
-interface Props {
-  selectedBtn: string;
-  onChangeSelectedBtn: (e: ChangeEvent<HTMLInputElement>) => void;
-}
-const Sort: React.FC<Props> = ({
-  selectedBtn: selectedRadioBtn,
-  onChangeSelectedBtn,
-}) => {
+interface Props {}
+const Sort: React.FC<Props> = ({}) => {
   const [currentDropDown, setDropDown] = useState("");
   const [filterOpen, setFilterOpen] = useState(false);
   const filterRef = useRef(null);
   useEffect(() => {
-    const eventHandler = (event) => {
+    const eventHandler = (event: MouseEvent) => {
       if (filterRef.current && !filterRef?.current?.contains(event.target)) {
         setFilterOpen(false);
       }
@@ -27,6 +21,7 @@ const Sort: React.FC<Props> = ({
       document.removeEventListener("click", eventHandler);
     };
   }, []);
+
   return (
     <div className="my-4 pb-2 flex flex-col flex-wrap border-b-2 border-slate-300">
       <div

@@ -22,7 +22,7 @@ const CartBox = () => {
     (state: ICartRootState) => state.cart.totalAmount
   );
 
-  const cartItems = useSelector((state: ICartRootState) => state.cart.items);
+  const cartItems = useSelector((state: any) => state.cart.items);
 
   const userInfo = useSelector(
     (state: IUserInfoRootState) => state.userInfo.userInformation
@@ -55,7 +55,7 @@ const CartBox = () => {
           <>
             {cartItems.length ? (
               cartItems.map((item) => {
-                return <CartItem key={item.slug.current} product={item} />;
+                return <CartItem key={item._id} product={item} />;
               })
             ) : (
               <p className="mt-20 text-center text-palette-mute font-normal">

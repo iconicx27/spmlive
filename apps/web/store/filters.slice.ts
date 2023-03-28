@@ -3,13 +3,13 @@ import { stat } from "fs";
 interface filterOption {
   grains: string[];
   limit: number;
-  healthBenefits: string[];
+  nutrients: string[];
 }
 
 const initialState: filterOption = {
   grains: [],
-  limit: 0,
-  healthBenefits: [],
+  limit: 100,
+  nutrients: [],
 };
 
 const filterSlice = createSlice({

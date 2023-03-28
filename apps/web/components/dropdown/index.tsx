@@ -6,7 +6,7 @@ const index = ({ filterOption, currentDropDown, setDropDown }) => {
   const filterState = useSelector((state) => state.filter);
   const dispatch = useDispatch();
   // console.log(filterState);
-
+  // console.log("Inside DropDown");
   return (
     <div>
       <div className="relative text-left justify-between w-52 my-1">
@@ -48,21 +48,24 @@ const index = ({ filterOption, currentDropDown, setDropDown }) => {
         >
           <div className="py-1 w-full" role="none">
             {filters[filterOption].map((option, index) => {
+              let key = Object.keys(option);
               return (
                 <div className="flex w-full" key={`menu-item-${index}`}>
                   <input
                     type="checkbox"
                     className="flex-[0.1]"
-                    checked={filterState?.filterOption?.includes(option)}
+                    checked={filterState?.filterOption?.includes(
+                      option[key[0]]
+                    )}
                     onChange={(event) => {
                       const action = event.target.checked
                         ? filterAction.addFilter({
                             type: filterOption,
-                            data: option,
+                            data: option[key[0]],
                           })
                         : filterAction.removeFilter({
                             type: filterOption,
-                            data: option,
+                            data: option[key[0]],
                           });
                       dispatch(action);
                     }}
@@ -73,7 +76,7 @@ const index = ({ filterOption, currentDropDown, setDropDown }) => {
                     } block px-4 py-2 text-sm`}
                     role="menuitem"
                   >
-                    {option}
+                    {key[0]}
                   </p>
                 </div>
               );

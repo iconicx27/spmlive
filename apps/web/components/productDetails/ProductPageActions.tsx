@@ -1,12 +1,12 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { favoriteActions } from "../../store/favorite-slice";
-import { IProduct } from "../../lib/types/products";
+import { IProduct, SProduct } from "../../lib/types/products";
 import { IFavoriteRootState } from "../../lib/types/favorite";
 import { RiHeartFill, RiHeartAddLine, RiShareLine } from "react-icons/ri";
 
 interface Props {
-  product: IProduct;
+  product: SProduct;
 }
 const ProductPageActions: React.FC<Props> = ({ product }) => {
   const dispatch = useDispatch();

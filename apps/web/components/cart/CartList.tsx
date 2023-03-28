@@ -9,10 +9,8 @@ const CartList = () => {
     <div>
       <div className="w-full xl:max-w-[2100px] mx-auto">
         {cartItems.length
-          ? cartItems.map((cartItem: ICartProduct) => {
-              return (
-                <CartItem key={cartItem.slug.current} product={cartItem} />
-              );
+          ? cartItems.map((cartItem: ICartProduct | any) => {
+              return <CartItem key={cartItem._id} product={cartItem} />;
             })
           : null}
       </div>

@@ -49,3 +49,21 @@ export interface IProduct {
   timeStamp?: number;
   starRating: number;
 }
+
+export interface SProduct {
+  _id?: string;
+  name: string;
+  imgUrl: string;
+  description?: string;
+  createdDate?: Date;
+  updatedDate?: Date;
+  price?: number;
+  // quantity?: number;
+  ingredients: Ingredient[];
+  storeOwnerId?: string;
+}
+
+interface Ingredient {
+  grain_id: string;
+  proportion: number;
+}

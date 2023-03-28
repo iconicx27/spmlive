@@ -1,6 +1,7 @@
 import { IProductDetails, TSlug } from "./products";
 
 export interface ICartProduct {
+  _id?: string;
   image: any;
   name: string;
   slug: TSlug;

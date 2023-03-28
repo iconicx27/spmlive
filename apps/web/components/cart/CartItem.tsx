@@ -12,14 +12,12 @@ import { cartActions } from "../../store/cart-slice";
 import ProductPrice from "../UI/ProductPrice";
 
 interface Props {
-  product: IProduct;
+  product: IProduct | any;
 }
 const CartItem: React.FC<Props> = ({ product }) => {
   const productQuantity = useSelector(
-    (state: ICartRootState) =>
-      state.cart.items.find(
-        (item) => item.slug.current === product.slug.current
-      )?.quantity
+    (state: ICartRootState | any) =>
+      state.cart.items.find((item) => item._id === product._id)?.quantity
   );
   const [counter, setCounter] = useState(productQuantity);
   const dispatch = useDispatch();
@@ -43,13 +41,11 @@ const CartItem: React.FC<Props> = ({ product }) => {
   return (
     <div className="flex items-center flex-wrap sm:my-4 sm:py-4 px-2 border-b-2">
       <div className="lg:w-1/2 sm:min-w-[290px]">
-        <Link
-          href={`/${product.category[0]}/${product.category[1]}/${product.category[2]}/${product.slug.current}`}
-        >
+        <Link href={``}>
           <a className="flex flex-wrap sm:flex-nowrap justify-center items-center flex-grow">
             <div className="sm:min-w-[100px] md:min-w-[130px]">
-              <Image
-                src={urlFor(product?.image[0]).url()}
+              <img
+                src={`${product.imgUrl}`}
                 width={200}
                 height={200}
                 alt={product.name}
@@ -80,17 +76,11 @@ const CartItem: React.FC<Props> = ({ product }) => {
               onChange={onInputNumberChangeHandler}
             />
             {counter === 1 ? (
-              <div
-                onClick={() => decrement(product.slug.current)}
-                className="p-1"
-              >
+              <div onClick={() => decrement(product._id)} className="p-1">
                 <HiOutlineTrash style={{ fontSize: "1.3rem", color: "red" }} />
               </div>
             ) : (
-              <div
-                onClick={() => decrement(product.slug.current)}
-                className="p-1"
-              >
+              <div onClick={() => decrement(product._id)} className="p-1">
                 <HiMinusSm style={{ fontSize: "1rem" }} />
               </div>
             )}
@@ -100,7 +90,7 @@ const CartItem: React.FC<Props> = ({ product }) => {
           <p>{t.totalAmount}</p>
           <ProductPrice
             price={product.price * counter!}
-            discount={product.discount}
+            discount={product.discount ?? 10}
           />
         </div>
       </div>

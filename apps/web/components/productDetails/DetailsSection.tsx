@@ -5,7 +5,7 @@ import { IProduct } from "../../lib/types/products";
 import CallToAction from "./CallToAction";
 
 interface Props {
-  product: IProduct;
+  product: any;
 }
 const DetailsSection: React.FC<Props> = ({ product }) => {
   const { t } = useLanguage();
@@ -22,14 +22,14 @@ const DetailsSection: React.FC<Props> = ({ product }) => {
             <StarRatingComponent
               name="product_rate"
               starCount={5}
-              value={product.starRating}
+              value={product.starRating ?? 5}
             />
             <p className="text-sm text-palette-mute rtl:mr-2 ltr:ml-2">
-              {product.starRating} {t.stars}
+              {product.starRating ?? 5} {t.stars}
             </p>
           </div>
-          <h3 className="text-lg mt-2">{t.details}</h3>
-          <div className="mt-4">
+          <h3 className="text-lg mt-2">{product.description}</h3>
+          {/* <div className="mt-4">
             {Object.keys(product.details!).map((key) => {
               const detailsValue = Array.isArray(product.details![key])
                 ? [...product.details![key]].join(" - ")
@@ -54,7 +54,7 @@ const DetailsSection: React.FC<Props> = ({ product }) => {
                 </div>
               );
             })}
-          </div>
+          </div> */}
         </div>
         <CallToAction product={product} />
       </div>

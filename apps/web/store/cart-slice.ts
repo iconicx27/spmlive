@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ICart } from "../lib/types/cart";
-import { IProduct } from "../lib/types/products";
+import { IProduct, SProduct } from "../lib/types/products";
 import { calculateDiscountPercentage } from "../utilities/calculateDiscountPercentage";
 
 const initialState: ICart = {
@@ -14,14 +14,12 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     addItemToCart(
-      state: ICart,
-      action: PayloadAction<{ product: IProduct; quantity: number }>
+      state: ICart | any,
+      action: PayloadAction<{ product: IProduct | any; quantity: number }>
     ) {
       const newItem = action.payload.product;
 
-      const existingItem = state.items.find(
-        (item) => item.slug.current === newItem.slug.current
-      );
+      const existingItem = state.items.find((item) => item._id === newItem._id);
 
       state.totalQuantity = state.totalQuantity + action.payload.quantity;
 
@@ -63,12 +61,10 @@ const cartSlice = createSlice({
 
     removeItemFromCart(
       state: ICart,
-      action: PayloadAction<string> //slug.current as payload
+      action: PayloadAction<string> //_id as payload
     ) {
       const productSlug = action.payload;
-      const existingItem = state.items.find(
-        (item) => item.slug.current === productSlug
-      );
+      const existingItem = state.items.find((item) => item._id === productSlug);
 
       state.totalQuantity--;
 
@@ -82,9 +78,7 @@ const cartSlice = createSlice({
           : existingItem?.price)!;
 
       if (existingItem?.quantity === 1) {
-        state.items = state.items.filter(
-          (item) => item.slug.current !== productSlug
-        );
+        state.items = state.items.filter((item) => item._id !== productSlug);
       } else {
         existingItem!.quantity--;
         existingItem!.totalPrice =
