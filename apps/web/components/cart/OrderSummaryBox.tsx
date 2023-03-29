@@ -4,9 +4,42 @@ import { useSelector } from "react-redux";
 import { useLanguage } from "../../hooks/useLanguage";
 import { ICartRootState } from "../../lib/types/cart";
 import ProductPrice from "../UI/ProductPrice";
+import {
+  CardElement,
+  useElements,
+  useStripe,
+  PaymentElement,
+} from "@stripe/react-stripe-js";
 import { changeNumbersFormatEnToFa } from "../../utilities/changeNumbersFormatEnToFa";
 
+const CARD_OPTIONS = {
+  iconStyle: "solid",
+  hidePostalCode: true,
+  style: {
+    base: {
+      // iconColor: "#c4f0ff",
+      color: "black",
+      fontWeight: 500,
+      fontFamily: "Roboto, Open Sans, Segoe UI, sans-serif",
+      fontSize: "16px",
+      fontSmoothing: "antialiased",
+      ":-webkit-autofill": {
+        color: "#fce883",
+      },
+      "::placeholder": {
+        // color: "#87bbfd",
+      },
+    },
+    invalid: {
+      iconColor: "#ffc7ee",
+      color: "#ffc7ee",
+    },
+  },
+};
+
 const OrderSummaryBox = () => {
+  const stripe = useStripe();
+  const elements = useElements();
   const { t, locale } = useLanguage();
   const totalAmount = useSelector(
     (state: ICartRootState) => state.cart.totalAmount
@@ -14,6 +47,64 @@ const OrderSummaryBox = () => {
   const totalQuantity = useSelector(
     (state: ICartRootState) => state.cart.totalQuantity
   );
+
+  const handleOrder = async () => {
+    if (!stripe || !elements) {
+      return;
+    }
+    const billingDetails = {
+      name: "Chetan Gamne",
+      email: "chetangamne12@gmail.com",
+      address: {
+        city: "Nashik",
+        line1: "Address 1",
+        state: "my state",
+        postal_code: "2200",
+      },
+    };
+    try {
+      const cardElement = elements.getElement(CardElement);
+      const res = await fetch("http://localhost:3001/stripe/payment-intent", {
+        method: "POST",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+          // 'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: JSON.stringify({ amount: 9, name: "Chetan Gamne" }),
+      });
+      const data = await res.json();
+      console.log(data);
+      const paymentMethod = await stripe.createPaymentMethod({
+        type: "card",
+        card: cardElement,
+      });
+      console.log(paymentMethod);
+      const result = await stripe.confirmCardPayment(
+        data.clientSecret.client_secret,
+        {
+          payment_method: paymentMethod.paymentMethod.id,
+        }
+      );
+      console.log(result);
+      const response = await fetch(
+        "http://localhost:3001/stripe/verify-payment",
+        {
+          method: "POST",
+          mode: "cors",
+          headers: {
+            "Content-Type": "application/json",
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: JSON.stringify({ id: result.paymentIntent.id }),
+        }
+      );
+      const op = await response.json();
+      console.log(op);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
@@ -38,11 +129,12 @@ const OrderSummaryBox = () => {
               <ProductPrice price={totalAmount} />
             </div>
           </div>
-          <Link href="/">
-            <a className="block bg-palette-primary md:mt-8 py-3 rounded-lg text-palette-side text-center shadow-lg">
+          <CardElement options={CARD_OPTIONS} />
+          <p onClick={handleOrder}>
+            <a className="block bg-palette-primary md:mt-8 py-3 rounded-lg text-palette-side text-center cursor-pointer  shadow-lg">
               {t.order}
             </a>
-          </Link>
+          </p>
         </div>
       ) : (
         <p className="text-palette-mute text-lg mx-auto mt-12">

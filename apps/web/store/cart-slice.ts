@@ -1,7 +1,15 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ICart } from "../lib/types/cart";
+import { ICart, ICartProduct } from "../lib/types/cart";
 import { IProduct, SProduct } from "../lib/types/products";
 import { calculateDiscountPercentage } from "../utilities/calculateDiscountPercentage";
+
+const setItemFunc = (item, totalAmount, totalQuantity) => {
+  if (typeof window !== "undefined") {
+    localStorage.setItem("cartItems", JSON.stringify(item));
+    localStorage.setItem("totalAmount", JSON.stringify(totalAmount));
+    localStorage.setItem("totalQuantity", JSON.stringify(totalQuantity));
+  }
+};
 
 const initialState: ICart = {
   items: [],
@@ -57,6 +65,11 @@ const cartSlice = createSlice({
         existingItem.quantity += action.payload.quantity;
         existingItem.totalPrice = totalPrice;
       }
+      setItemFunc(
+        state.items.map((item) => item),
+        state.totalAmount,
+        state.totalQuantity
+      );
     },
 
     removeItemFromCart(
@@ -90,10 +103,39 @@ const cartSlice = createSlice({
               )
             : existingItem?.price)!;
       }
+      setItemFunc(
+        state.items.map((item) => item),
+        state.totalAmount,
+        state.totalQuantity
+      );
     },
 
     clearCart(state) {
-      state = initialState;
+      state.items = [];
+      state.totalQuantity = 0;
+      state.totalAmount = 0;
+
+      // Remove cart items from local storage
+      if (typeof window !== "undefined") {
+        localStorage.removeItem("cartItems");
+        localStorage.removeItem("totalAmount");
+        localStorage.removeItem("totalQuantity");
+      }
+    },
+    setItemsFromLocalStorage(
+      state: ICart,
+      action: PayloadAction<{
+        items: ICartProduct[];
+        totalAmount: number;
+        totalQuantity: number;
+      }>
+    ) {
+      console.log("Setting Item From Local Storage");
+      const { items, totalAmount, totalQuantity } = action.payload;
+      console.log(items, totalAmount, totalQuantity);
+      state.items = items;
+      state.totalAmount = totalAmount;
+      state.totalQuantity = totalQuantity;
     },
   },
 });

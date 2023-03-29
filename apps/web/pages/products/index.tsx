@@ -1,4 +1,4 @@
-import type { NextPage } from "next";
+import type { GetServerSideProps, NextPage } from "next";
 import { GetStaticProps, GetStaticPaths } from "next";
 // import { client } from "../../lib/client";
 import { IProduct, SProduct } from "../../lib/types/products";
@@ -51,7 +51,7 @@ const index: NextPage<{
 
 export default index;
 
-export const getStaticProps: GetStaticProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   const PRODUCT_QUERY = gql`
     query {
       getProducts(options: {}) {

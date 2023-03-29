@@ -35,6 +35,7 @@ const User = () => {
           dispatch(userInfoActions.userLogin(data));
           setUserLoading(false);
         }
+        console.log(data);
       } catch (error) {
         setUserLoading(false);
         if (error instanceof ApolloError && error.graphQLErrors.length > 0) {

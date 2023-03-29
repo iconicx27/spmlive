@@ -8,9 +8,11 @@ import "slick-carousel/slick/slick-theme.css";
 import "react-toastify/dist/ReactToastify.css";
 import { ApolloProvider } from "@apollo/client";
 import client from "../services/apollo-client";
-import { Provider } from "react-redux";
+import { Provider, useDispatch } from "react-redux";
 import store from "../store/index";
 import "../styles/globals.css";
+import { useEffect } from "react";
+import { cartActions } from "../store/cart-slice";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (

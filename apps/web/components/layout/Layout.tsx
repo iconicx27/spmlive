@@ -1,5 +1,5 @@
-import React from "react";
-import { Provider } from "react-redux";
+import React, { useEffect } from "react";
+import { Provider, useDispatch } from "react-redux";
 import Head from "next/head";
 import { ThemeProvider } from "next-themes";
 import Header from "../header";
@@ -8,9 +8,27 @@ import Footer from "../footer";
 import { ToastContainer } from "react-toastify";
 import { useLanguage } from "../../hooks/useLanguage";
 import NextNProgress from "nextjs-progressbar";
+import { cartActions } from "../../store/cart-slice";
 
 const Layout: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
   const { locale } = useLanguage();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+      const totalAmount = JSON.parse(localStorage.getItem("totalAmount")) || 0;
+      const totalQuantity =
+        JSON.parse(localStorage.getItem("totalQuantity")) || 0;
+
+      dispatch(
+        cartActions.setItemsFromLocalStorage({
+          items: cartItems,
+          totalAmount,
+          totalQuantity,
+        })
+      );
+    }
+  }, []);
   return (
     <Provider store={store}>
       <ThemeProvider enableSystem={true} attribute="class">
